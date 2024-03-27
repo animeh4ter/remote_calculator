@@ -5,6 +5,7 @@ import json
 def main():
     # Создание UDP сокета
     try:
+        # socket.SOCK_DGRAM - UDP протокол
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         while True:

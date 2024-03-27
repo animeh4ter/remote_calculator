@@ -135,7 +135,3 @@ class Expression:
             i += 1
         return sub_expression, i
 
-
-# Пример использования:
-expression_ans = Expression("(2+2)*2")
-print("Результат:", expression_ans.evaluate())

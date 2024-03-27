@@ -27,6 +27,7 @@ def handle_req(host: str = '127.0.0.1', port: int = 9999):
     while True:
         try:
             msg, addr = server_socket.recvfrom(UDP_MAX_SIZE)
+            print(f'Request: raw - {msg} from {addr}')
             expression_str = msg.decode()
             expression = Expression(expression_str)
 
