@@ -8,7 +8,8 @@ def main():
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         while True:
-            expression = input("Введите математическое выражение (например, 2+2) или exit чтобы завершить программу: ")
+            expression = input("Введите математическое выражение (например, "
+                               "2+2) или exit чтобы завершить программу: ")
 
             if expression.strip().lower() == 'exit':
                 print(f'...terminating...')

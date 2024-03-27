@@ -24,7 +24,8 @@ class Expression:
         """
 
         result = self._evaluate_expression(self.string)
-        # Если результат содержит десятичную часть, равную нулю, преобразуем его в целое число
+        # Если результат содержит десятичную часть, равную нулю,
+        # преобразуем его в целое число
         if isinstance(result, float) and result.is_integer():
             result = int(result)
         return result
@@ -48,7 +49,8 @@ class Expression:
                     numbers[i] *= numbers[i + 1]
                 elif operators[i] == '/':
                     if numbers[i + 1] == 0:
-                        raise ValueError("Деление на ноль")
+                        raise ValueError("Ошибка: Деление на "
+                                         "ноль запрещено правилами вселенной(")
                     numbers[i] /= numbers[i + 1]
                 numbers.pop(i + 1)
                 operators.pop(i)
@@ -82,13 +84,15 @@ class Expression:
                 num, i = Expression._extract_number(expression, i)
                 numbers.append(float(num))
             elif expression[i] == '(':
-                sub_expression, i = Expression._extract_sub_expression(expression, i)
+                sub_expression, i = \
+                    Expression._extract_sub_expression(expression, i)
                 numbers.append(Expression._evaluate_expression(sub_expression))
             elif expression[i] in ['+', '-', '*', '/']:
                 operators.append(expression[i])
                 i += 1
             else:
-                i += 1
+                raise ValueError(f'Ошибка: Оператор "{expression[i]}"'
+                                 f' пока что не поддерживается')
 
         return numbers, operators
 
@@ -102,7 +106,8 @@ class Expression:
         :return: Число и новый индекс.
         """
         num = ""
-        while i < len(expression) and (expression[i].isdigit() or expression[i] in ['.', ',']):
+        while i < len(expression) and (expression[i].isdigit()
+                                       or expression[i] in ['.', ',']):
             num += expression[i]
             i += 1
         num = num.replace(',', '.')
@@ -130,4 +135,7 @@ class Expression:
             i += 1
         return sub_expression, i
 
-# TODO сделать корни, логарифмы и т.п. как в калькуляторе?
+
+# Пример использования:
+expression_ans = Expression("(2+2)*2")
+print("Результат:", expression_ans.evaluate())

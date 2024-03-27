@@ -35,5 +35,6 @@ def create_table(conn):
 # Вставка операции в таблицу
 def insert_expression(conn, client_ip, expression_str, result):
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO expressions (client_ip, expression, result) VALUES (%s, %s, %s)', (client_ip, expression_str, result))
+    cursor.execute('INSERT INTO expressions (client_ip, expression, result) '
+                   'VALUES (%s, %s, %s)', (client_ip, expression_str, result))
     conn.commit()

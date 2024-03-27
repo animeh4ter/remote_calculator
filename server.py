@@ -35,10 +35,24 @@ def handle_req(host: str = '127.0.0.1', port: int = 9999):
 
             # Проверяем, есть ли сообщения в очереди для обработки
             while fifo_queue:
-                expr, client_addr = fifo_queue.popleft()  # Получаем сообщение из начала очереди
-                answer = expr.evaluate()
-                server_socket.sendto(str(answer).encode(), client_addr)  # Отправляем ответ клиенту
-                insert_expression(conn, client_addr[0], expression_str, answer)  # Cохраняем в бд результат и само выражение
+                # Получаем сообщение из начала очереди
+                expr, client_addr = fifo_queue.popleft()
+
+                try:
+                    answer = expr.evaluate()
+                except ValueError as e:  # Не будет передано в следующий стек
+                    server_socket.sendto(str(e).encode(), client_addr)
+                    continue
+                except IndexError as e:
+                    server_socket.sendto(f'Ошибка: Выражение {expr.string}'
+                                         f' не имеет смысла или '
+                                         f'записано не правильно'.encode(),
+                                         client_addr)
+                    continue
+                # Отправляем ответ клиенту
+                server_socket.sendto(str(answer).encode(), client_addr)
+                # Cохраняем в бд результат и само выражение
+                insert_expression(conn, client_addr[0], expression_str, answer)
 
         except Exception as e:
             print(e)
