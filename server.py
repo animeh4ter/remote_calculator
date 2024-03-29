@@ -14,8 +14,8 @@ def handle_req(host: str = '127.0.0.1', port: int = 9999):
         Создаем сокет, "слушаем" запросы от клиента,
     """
 
-    conn = create_db_connection()
-    create_table(conn)
+    # conn = create_db_connection()
+    # create_table(conn)
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -53,7 +53,7 @@ def handle_req(host: str = '127.0.0.1', port: int = 9999):
                 # Отправляем ответ клиенту
                 server_socket.sendto(str(answer).encode(), client_addr)
                 # Cохраняем в бд результат и само выражение
-                insert_expression(conn, client_addr[0], expression_str, answer)
+                # insert_expression(conn, client_addr[0], expression_str, answer)
 
         except Exception as e:
             print(e)
